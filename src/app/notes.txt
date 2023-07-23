@@ -1,0 +1,19 @@
+this.toaster.success('saved successfully', 'User master');
+    Swal.fire('Hello World');
+    Swal.fire("oops..", "something went wrong", "error")
+    Swal.fire("Thanks", "Form saved", "success")
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this record",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText:"Yes delete it",
+      cancelButtonText:"No keep it",
+    }).then(result => {
+      if(result.value){
+        Swal.fire("Deleted", "Your record has been deleted", "success")
+      }else if(result.dismiss == Swal.DismissReason.cancel){
+        Swal.fire("Cancel", "Your record is not deleted", "error")
+      }
+    })

@@ -1,3 +1,78 @@
-<button class="btn btn-success">Save</button>
+<div class="card">
+  <h5 class="card-header card-header-color">User Registration</h5>
+  <div class="card-body">
+    <form [formGroup]="registrationForm">
+      <div class="row mb-3">
+        <div class="form-group col">
+          <label for="">Title</label>
+          <select class="form-control" formControlName="title" id="">
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Ms">Ms</option>
+          </select>
+        </div>
 
-<i class="fa fa-envelope"></i>
+        <div class="form-group col-5">
+          <label for="">First Name</label>
+          <input class="form-control" type="text" formControlName="firstName" />
+        </div>
+
+        <div class="form-group col-5">
+          <label for="">Last Name</label>
+          <input class="form-control" type="text" formControlName="lastName" />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group col-5">
+          <label for="">Date of Birth</label>
+          <input type="date" class="form-control" formControlName="dob" />
+        </div>
+        <div class="form-group col-5">
+          <label for="">Email</label>
+          <input type="email" class="form-control" formControlName="email" />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group col-5">
+          <label for="">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+          />
+        </div>
+        <div class="form-group col-5">
+          <label for="">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="confirmPassword"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group col form-check">
+          <input
+            type="checkbox"
+            class="form-control form-check-input"
+            formControlName="acceptTerms"
+            id="acceptTerms"
+          />
+          <label for="acceptTerms" class="form-check-label"
+            >Accept Terms and Conditions</label
+          >
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group text-center">
+          <button class="btn btn-success me-1" type="submit">Submit</button>
+          <button type="button" class="btn btn-danger">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
