@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api'
+import { DataService } from './_helpers/data.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserAnimationsModule,
     ToastrModule.forRoot(), //because this was giving error of no provider for ngx toastr
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule, 
+    HttpClientInMemoryWebApiModule.forRoot(DataService)
   ],
   providers: [],
   bootstrap: [AppComponent]

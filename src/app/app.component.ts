@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { UserService } from './_helpers/user.service';
+import { User } from './_helpers/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +13,21 @@ import Swal from 'sweetalert2';
 export class AppComponent implements OnInit {
   title = 'registrationapp';
   registrationForm: FormGroup;
+  users: User[] = [];
 
   constructor(
-    private toaster: ToastrService,
-    private formBuilder: FormBuilder
+    private _toaster: ToastrService,
+    private _formBuilder: FormBuilder,
+    private _userService: UserService
   ) {}
 
   ngOnInit() {
     this.setFormState();
+    this.getAllUsers();
   }
 
   setFormState() {
-    this.registrationForm = this.formBuilder.group({
+    this.registrationForm = this._formBuilder.group({
       id: [0],
       title: ['', Validators.required],
       firstName: [
@@ -58,6 +63,31 @@ export class AppComponent implements OnInit {
       ],
       confirmPassword: ['', Validators.required],
       acceptTerms: [false, Validators.required],
+    });
+  }
+
+  onSubmit() {
+    if (this.registrationForm.invalid) return;
+  }
+
+  onCancel() {
+    this.registrationForm.reset();
+  }
+
+  edit(userId: number) {
+    alert(userId);
+  }
+
+  delete(userId: number) {
+    this._userService.deleteUser(userId).subscribe((res) => {
+      this.getAllUsers();
+      this._toaster.success(`User with id:${userId} deleted successfully`, "User Registeration")
+    });
+  }
+
+  getAllUsers() {
+    this._userService.getUsers().subscribe((res: User[]) => {
+      this.users = res;
     });
   }
 }

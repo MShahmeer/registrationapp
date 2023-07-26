@@ -2,3 +2,8 @@
     background-color: black;
     color: white;
 }
+
+.card-header-list-color{
+    background-color: rgb(35, 145, 235);
+    color: white;
+}

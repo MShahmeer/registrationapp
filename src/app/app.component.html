@@ -1,7 +1,7 @@
 <div class="card">
   <h5 class="card-header card-header-color">User Registration</h5>
   <div class="card-body">
-    <form [formGroup]="registrationForm">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <div class="row mb-3">
         <div class="form-group col">
           <label for="">Title</label>
@@ -57,7 +57,7 @@
         <div class="form-group col form-check">
           <input
             type="checkbox"
-            class="form-control form-check-input"
+            class="form-check-input"
             formControlName="acceptTerms"
             id="acceptTerms"
           />
@@ -70,9 +70,41 @@
       <div class="row mb-3">
         <div class="form-group text-center">
           <button class="btn btn-success me-1" type="submit">Submit</button>
-          <button type="button" class="btn btn-danger">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+
+<div class="card">
+  <h5 class="card-header card-header-list-color" >User List</h5>
+  <div class="card-body">
+    <div class="form-row">
+      <div class="form-group col">
+        <table class="table table-striped">
+          <tr>
+            <th>Title</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let user of users">
+            <td>{{user.title}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.dob}}</td>
+            <td>{{user.email}}</td>
+            <td>
+              <i class="fa fa-edit" style="color: green;" (click)="edit(user.id)"></i>
+              <i class="fa fa-trash-o" style="color: red;" (click)="delete(user.id)"></i>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
