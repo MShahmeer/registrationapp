@@ -79,9 +79,26 @@ export class AppComponent implements OnInit {
   }
 
   delete(userId: number) {
-    this._userService.deleteUser(userId).subscribe((res) => {
-      this.getAllUsers();
-      this._toaster.success(`User with id:${userId} deleted successfully`, "User Registeration")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover deleted record',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes delete it',
+      cancelButtonText: 'No keep it',
+    }).then((result) => {
+      if (result.value) {
+        this._userService.deleteUser(userId).subscribe((res) => {
+          this.getAllUsers();
+          // this._toaster.success(
+          //   `User with id:${userId} deleted successfully`,
+          //   'User Registeration'
+          // );
+        });
+        Swal.fire('Deleted', `User with id:${userId} deleted successfully`, 'success');
+      } else if (result.dismiss == Swal.DismissReason.cancel) {
+        Swal.fire('Cancel', 'Your record is not deleted', 'error');
+      }
     });
   }
 
