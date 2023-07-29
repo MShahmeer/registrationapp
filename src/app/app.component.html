@@ -10,7 +10,10 @@
             formControlName="title"
             id=""
             [ngClass]="{
-              'is-invalid': submitted && getFormControls['title'].errors
+              'is-invalid':
+                submitted ||
+                (getFormControls['title'].touched &&
+                  getFormControls['title'].invalid)
             }"
           >
             <option value="Mr">Mr</option>
@@ -18,7 +21,11 @@
             <option value="Ms">Ms</option>
           </select>
           <div
-            *ngIf="submitted && getFormControls['title'].errors"
+            *ngIf="
+              submitted ||
+              (getFormControls['title'].touched &&
+                getFormControls['title'].invalid)
+            "
             class="invalid-feedback"
           >
             <div *ngIf="getFormControls['title'].errors['required']">
@@ -34,11 +41,18 @@
             type="text"
             formControlName="firstName"
             [ngClass]="{
-              'is-invalid': submitted && getFormControls['firstName'].errors
+              'is-invalid':
+                submitted ||
+                (getFormControls['firstName'].touched &&
+                  getFormControls['firstName'].invalid)
             }"
           />
           <div
-            *ngIf="submitted && getFormControls['firstName'].errors"
+            *ngIf="
+              submitted ||
+              (getFormControls['firstName'].touched &&
+                getFormControls['firstName'].invalid)
+            "
             class="invalid-feedback"
           >
             <div *ngIf="getFormControls['firstName'].errors['required']">
@@ -55,9 +69,26 @@
 
         <div class="form-group col-5">
           <label for="">Last Name</label>
-          <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'is-invalid': submitted && getFormControls['lastName'].errors}"/>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="lastName"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['lastName'].touched &&
+                  getFormControls['lastName'].invalid)
+            }"
+          />
 
-          <div *ngIf="submitted && getFormControls['lastName'].errors" class="invalid-feedback">
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['lastName'].touched &&
+                getFormControls['lastName'].invalid)
+            "
+            class="invalid-feedback"
+          >
             <div *ngIf="getFormControls['lastName'].errors['required']">
               Last Name is required!!
             </div>
@@ -74,11 +105,82 @@
       <div class="row mb-3">
         <div class="form-group col-5">
           <label for="">Date of Birth</label>
-          <input type="date" class="form-control" formControlName="dob" />
+          <input
+            type="date"
+            class="form-control"
+            formControlName="dob"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['dob'].touched &&
+                  getFormControls['dob'].errors)
+            }"
+          />
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['dob'].touched && getFormControls['dob'].invalid)
+            "
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                getFormControls['dob'].touched &&
+                getFormControls['dob'].errors['pattern']
+              "
+            >
+              Invalid pattern
+            </div>
+            <div
+              *ngIf="
+                submitted ||
+                (getFormControls['dob'].touched &&
+                  getFormControls['dob'].errors['required'])
+              "
+            >
+              Date of birth is required!!
+            </div>
+          </div>
         </div>
         <div class="form-group col-5">
           <label for="">Email</label>
-          <input type="email" class="form-control" formControlName="email" />
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['email'].touched &&
+                  getFormControls['email'].errors)
+            }"
+          />
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['email'].touched &&
+                getFormControls['email'].errors)
+            "
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                submitted ||
+                (getFormControls['email'].touched &&
+                  getFormControls['email'].errors['required'])
+              "
+            >
+              Email is required!!
+            </div>
+            <div
+              *ngIf="
+                getFormControls['email'].touched &&
+                getFormControls['email'].errors['email']
+              "
+            >
+              Please Enter Correct email!!
+            </div>
+          </div>
         </div>
       </div>
 
@@ -89,7 +191,28 @@
             type="password"
             class="form-control"
             formControlName="password"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['password'].touched &&
+                  getFormControls['password'].invalid)
+            }"
           />
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['password'].touched &&
+                getFormControls['password'].invalid)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="getFormControls['password'].errors['required']">
+              Password is required
+            </div>
+            <div *ngIf="getFormControls['password'].errors['minlength']">
+              Password minimum length must be 6.
+            </div>
+          </div>
         </div>
         <div class="form-group col-5">
           <label for="">Confirm Password</label>
@@ -97,7 +220,28 @@
             type="password"
             class="form-control"
             formControlName="confirmPassword"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['confirmPassword'].touched &&
+                  getFormControls['confirmPassword'].invalid)
+            }"
           />
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['confirmPassword'].touched &&
+                getFormControls['confirmPassword'].invalid)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="getFormControls['confirmPassword'].errors['required']">
+              Confirm Password is required
+            </div>
+            <div *ngIf="getFormControls['confirmPassword'].errors['minlength']">
+              Password minimum length must be 6.
+            </div>
+          </div>
         </div>
       </div>
 
@@ -108,10 +252,28 @@
             class="form-check-input"
             formControlName="acceptTerms"
             id="acceptTerms"
+            [ngClass]="{
+              'is-invalid':
+                submitted ||
+                (getFormControls['acceptTerms'].touched &&
+                  getFormControls['acceptTerms'].errors)
+            }"
           />
           <label for="acceptTerms" class="form-check-label"
             >Accept Terms and Conditions</label
           >
+          <div
+            *ngIf="
+              submitted ||
+              (getFormControls['acceptTerms'].touched &&
+                getFormControls['acceptTerms'].invalid)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="getFormControls['acceptTerms'].errors['required']">
+              Accept terms is required
+            </div>
+          </div>
         </div>
       </div>
 

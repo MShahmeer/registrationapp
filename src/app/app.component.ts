@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(6)]),
       ],
       confirmPassword: ['', Validators.required],
-      acceptTerms: [false, Validators.required],
+      acceptTerms: [false, Validators.requiredTrue],
     });
   }
 
