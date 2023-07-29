@@ -5,21 +5,69 @@
       <div class="row mb-3">
         <div class="form-group col">
           <label for="">Title</label>
-          <select class="form-control" formControlName="title" id="">
+          <select
+            class="form-control"
+            formControlName="title"
+            id=""
+            [ngClass]="{
+              'is-invalid': submitted && getFormControls['title'].errors
+            }"
+          >
             <option value="Mr">Mr</option>
             <option value="Mrs">Mrs</option>
             <option value="Ms">Ms</option>
           </select>
+          <div
+            *ngIf="submitted && getFormControls['title'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="getFormControls['title'].errors['required']">
+              Title is required!!
+            </div>
+          </div>
         </div>
 
         <div class="form-group col-5">
           <label for="">First Name</label>
-          <input class="form-control" type="text" formControlName="firstName" />
+          <input
+            class="form-control"
+            type="text"
+            formControlName="firstName"
+            [ngClass]="{
+              'is-invalid': submitted && getFormControls['firstName'].errors
+            }"
+          />
+          <div
+            *ngIf="submitted && getFormControls['firstName'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="getFormControls['firstName'].errors['required']">
+              First Name is required!!
+            </div>
+            <div *ngIf="getFormControls['firstName'].errors['minlength']">
+              First Name should be at least 3 characters long!!
+            </div>
+            <div *ngIf="getFormControls['firstName'].errors['maxlength']">
+              First Name should not exceed 10 characters!!
+            </div>
+          </div>
         </div>
 
         <div class="form-group col-5">
           <label for="">Last Name</label>
-          <input class="form-control" type="text" formControlName="lastName" />
+          <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'is-invalid': submitted && getFormControls['lastName'].errors}"/>
+
+          <div *ngIf="submitted && getFormControls['lastName'].errors" class="invalid-feedback">
+            <div *ngIf="getFormControls['lastName'].errors['required']">
+              Last Name is required!!
+            </div>
+            <div *ngIf="getFormControls['lastName'].errors['minlength']">
+              Last Name should be at least 3 characters long!!
+            </div>
+            <div *ngIf="getFormControls['lastName'].errors['maxlength']">
+              Last Name should not exceed 10 characters!!
+            </div>
+          </div>
         </div>
       </div>
 
@@ -69,17 +117,20 @@
 
       <div class="row mb-3">
         <div class="form-group text-center">
-          <button class="btn btn-success me-1" type="submit">Submit</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <button class="btn btn-success me-1" type="submit">
+            {{ submitButtonText }}
+          </button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Cancel
+          </button>
         </div>
       </div>
     </form>
   </div>
 </div>
 
-
 <div class="card">
-  <h5 class="card-header card-header-list-color" >User List</h5>
+  <h5 class="card-header card-header-list-color">User List</h5>
   <div class="card-body">
     <div class="form-row">
       <div class="form-group col">
@@ -93,14 +144,22 @@
             <th>Actions</th>
           </tr>
           <tr *ngFor="let user of users">
-            <td>{{user.title}}</td>
-            <td>{{user.firstName}}</td>
-            <td>{{user.lastName}}</td>
-            <td>{{user.dob}}</td>
-            <td>{{user.email}}</td>
+            <td>{{ user.title }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.dob }}</td>
+            <td>{{ user.email }}</td>
             <td>
-              <i class="fa fa-edit" style="color: green;" (click)="edit(user.id)"></i>
-              <i class="fa fa-trash-o" style="color: red;" (click)="delete(user.id)"></i>
+              <i
+                class="fa fa-edit"
+                style="color: green"
+                (click)="edit(user.id)"
+              ></i>
+              <i
+                class="fa fa-trash-o"
+                style="color: red"
+                (click)="delete(user.id)"
+              ></i>
             </td>
           </tr>
         </table>

@@ -17,7 +17,7 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    return this._httpService.put(`${this.API_BASE_PATH}users${user.id}`, user);
+    return this._httpService.put(`${this.API_BASE_PATH}users/${user.id}`, user);
   }
 
   getUsers() {

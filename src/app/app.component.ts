@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UserService } from './_helpers/user.service';
 import { User } from './_helpers/user.interface';
+import { DBOperation } from './_helpers/db-operations';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,9 @@ export class AppComponent implements OnInit {
   title = 'registrationapp';
   registrationForm: FormGroup;
   users: User[] = [];
+  submitted: boolean = false;
+  submitButtonText: string = 'Submit';
+  dbOperations: DBOperation;
 
   constructor(
     private _toaster: ToastrService,
@@ -27,6 +31,8 @@ export class AppComponent implements OnInit {
   }
 
   setFormState() {
+    this.submitButtonText = 'Submit';
+    this.dbOperations = DBOperation.CREATE;
     this.registrationForm = this._formBuilder.group({
       id: [0],
       title: ['', Validators.required],
@@ -53,7 +59,7 @@ export class AppComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.pattern(
-            /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/
+            /^(?:(?:0[1-9]|1[012])\/(?:0[1-9]|[12]\d|3[01])|(?:19|20)\d\d-[01]\d-[0-3]\d)$/
           ),
         ]),
       ],
@@ -67,15 +73,62 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('submit');
+    this.submitted = true;
+    console.log(this.registrationForm.invalid);
     if (this.registrationForm.invalid) return;
+
+    if (this.dbOperations) {
+      if (DBOperation.CREATE) {
+        console.log('create');
+        this._userService
+          .addUser(this.registrationForm.value)
+          .subscribe((res) => {
+            this._toaster.success('User Added!!', 'User Registration');
+            this.getAllUsers();
+            this.onCancel();
+          });
+      }
+    } else if (DBOperation.UPDATE) {
+      this._userService
+        .updateUser(this.registrationForm.value)
+        .subscribe((res) => {
+          this._toaster.success('User Updated!!', 'User Registration');
+          this.getAllUsers();
+          this.onCancel();
+        });
+    }
+  }
+
+  get getFormControls() {
+    return this.registrationForm.controls;
+  }
+
+  getAllUsers() {
+    this._userService.getUsers().subscribe((res: User[]) => {
+      this.users = res;
+    });
   }
 
   onCancel() {
     this.registrationForm.reset();
+    this.submitButtonText = 'Submit';
+    this.dbOperations = DBOperation.CREATE;
+    this.submitted = false;
   }
 
   edit(userId: number) {
-    alert(userId);
+    this.submitButtonText = 'Update';
+    this.dbOperations = DBOperation.UPDATE;
+
+    console.log(userId);
+    console.log(this.users);
+    let user = this.users.find(
+      (currentUser: User) => currentUser.id === userId
+    );
+    console.log(user);
+
+    this.registrationForm.patchValue(user);
   }
 
   delete(userId: number) {
@@ -90,21 +143,15 @@ export class AppComponent implements OnInit {
       if (result.value) {
         this._userService.deleteUser(userId).subscribe((res) => {
           this.getAllUsers();
-          // this._toaster.success(
-          //   `User with id:${userId} deleted successfully`,
-          //   'User Registeration'
-          // );
         });
-        Swal.fire('Deleted', `User with id:${userId} deleted successfully`, 'success');
+        Swal.fire(
+          'Deleted',
+          `User with id:${userId} deleted successfully`,
+          'success'
+        );
       } else if (result.dismiss == Swal.DismissReason.cancel) {
         Swal.fire('Cancel', 'Your record is not deleted', 'error');
       }
-    });
-  }
-
-  getAllUsers() {
-    this._userService.getUsers().subscribe((res: User[]) => {
-      this.users = res;
     });
   }
 }
