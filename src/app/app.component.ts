@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { UserService } from './_helpers/user.service';
 import { User } from './_helpers/user.interface';
 import { DBOperation } from './_helpers/db-operations';
+import { mustMatch } from './_helpers/must-match.validator';
 
 @Component({
   selector: 'app-root',
@@ -67,9 +68,12 @@ export class AppComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.minLength(6)]),
       ],
-      confirmPassword: ['', Validators.required],
+      confirmPassword: ['', [Validators.required]],
       acceptTerms: [false, Validators.requiredTrue],
     });
+    this.registrationForm.setValidators(
+      mustMatch('password', 'confirmPassword')
+    );
   }
 
   onSubmit() {
@@ -129,6 +133,9 @@ export class AppComponent implements OnInit {
     console.log(user);
 
     this.registrationForm.patchValue(user);
+    this.registrationForm.get('password').setValue('');
+    this.registrationForm.get('confirmPassword').setValue('');
+    this.registrationForm.get('acceptTerms').setValue(false);
   }
 
   delete(userId: number) {

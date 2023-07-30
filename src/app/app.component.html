@@ -206,10 +206,10 @@
             "
             class="invalid-feedback"
           >
-            <div *ngIf="getFormControls['password'].errors['required']">
+            <div *ngIf="submitted || getFormControls['password'].errors['required']">
               Password is required
             </div>
-            <div *ngIf="getFormControls['password'].errors['minlength']">
+            <div *ngIf="submitted || getFormControls['password'].errors['minlength']">
               Password minimum length must be 6.
             </div>
           </div>
@@ -238,8 +238,8 @@
             <div *ngIf="getFormControls['confirmPassword'].errors['required']">
               Confirm Password is required
             </div>
-            <div *ngIf="getFormControls['confirmPassword'].errors['minlength']">
-              Password minimum length must be 6.
+            <div *ngIf="getFormControls['confirmPassword'].errors['mustMatch']">
+              Password doesn't match
             </div>
           </div>
         </div>
